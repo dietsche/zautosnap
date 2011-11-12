@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# Copyright (C) 2011 Greg Dietsche <greg@gregd.org>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 2 as
+# published by the Free Software Foundation.
+#
+# ZAutoSnap is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#
+
+if [ $# -lt 2 ]; then
+	echo Usage: zautosnap.sh zfsFileSystem SnapShotLabel [MaxSnapsToKeep]
+	echo If MaxSnapsToKeep is not specified, then no pruning will be done.
+	exit
+fi
+
+#Create the snapshot
+zfs snapshot -r ${1}@ZAutoSnap_${2}_`date +"%Y-%m-%d_%T"`
+
+#Prune snapshot(s) if necessary / requested
+if [ -n "$3" ]; then
+	for pool in `zfs list -o name -t filesystem | grep $1`
+	do
+		SNAPS=`zfs list -o name -S creation -t snapshot | grep $pool\@ZAutoSnap_$2_`
+		COUNTER=0
+		for snap in $SNAPS
+		do
+			COUNTER=`expr ${COUNTER} + 1`
+			if [ "$COUNTER" -gt "$3" ]; then
+				zfs destroy $snap
+			fi
+		done
+	done
+fi
+exit 0

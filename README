@@ -1,0 +1,56 @@
+ZAutoSnap Readme - Copyright (C) 2011 Greg Dietsche <greg@gregd.org>
+
+OVERVIEW:
+	ZAutoSnap is a simple script that is meant to be used with cron
+	to take recursive snapshots of a zfs file system. All snapshots
+	have the time they were taken built into their name, so it is easy
+	to determine when the snapshot was taken.
+
+	Usage: zautosnap.sh zfsFileSystem SnapShotType [MaxSnapsToKeep]
+
+	zfsFileSystem
+		The file system that will be snapshotted.
+
+	SnapShotLabel
+		Chose a label for the snapshot (e.g. Daily)
+		This can be whatever you want it to be so long as it
+		is a single word.
+
+	MaxSnapsToKeep (optional parameter)
+		A number between 0 and infinity (or 42... Whichever comes first)
+
+		When this is NOT set, an unlimited number of snapshots will
+		be kept.
+
+		If you set this to zero, all snapshots matching SnapShotLabel
+		will be deleted.
+
+		Otherwise, MaxSnapsToKeep will make sure that only the
+		specified number of snapshots will be kept.
+
+SAMPLE CRONTAB:
+0 0 * * * zautosnap tank DAILY 30
+0 0 1 * * zautosnap tank MONTHLY 3
+
+SAMPLE SNAPSHOT:
+When you run `zfs list -t snapshot` you'll see snapshots like this:
+	tank/iso@ZAutoSnap_DAILY_2011-11-11_01:15:03
+
+EXAMPLES:
+	zautosnap tank DAILY 0	#Remove all 'DAILY' snapshots from tank
+	zautosnap tank DAILY 30	#keep up to 30 'DAILY' snapshots
+	zautosnap tank DAILY	#keep unlimited 'DAILY' snapshots
+
+LICENSE:
+	ZAutoSnap is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License version 2 as
+	published by the Free Software Foundation.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	 You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>
+
