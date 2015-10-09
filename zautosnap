@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env sh
 #
-# Copyright (C) 2011 Greg Dietsche <greg@gregd.org>
+# Copyright (C) 2011, 2015 Greg Dietsche <greg@gregd.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License version 2 as
