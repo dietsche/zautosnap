@@ -30,7 +30,9 @@ if [ $# -lt 2 ]; then
 fi
 
 #Create the snapshot
-zfs snapshot -r ${1}@ZAutoSnap_${2}_`date +"%Y-%m-%d_%T"`
+if [ $3 -gt 0 ]; then
+	zfs snapshot -r ${1}@ZAutoSnap_${2}_`date +"%Y-%m-%d_%T"`
+fi
 
 #Prune snapshot(s) if necessary / requested
 if [ -n "$3" ]; then
