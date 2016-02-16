@@ -44,7 +44,7 @@ if [ -n "$3" ]; then
 		do
 			COUNTER=`expr ${COUNTER} + 1`
 			if [ "$COUNTER" -gt "$3" ]; then
-				zfs destroy $snap
+				zfs destroy $snap &
 			fi
 		done
 	done
