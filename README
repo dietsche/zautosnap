@@ -34,7 +34,7 @@ SAMPLE CRONTAB:
 
 SAMPLE SNAPSHOT:
 When you run `zfs list -t snapshot` you'll see snapshots like this:
-	tank/iso@ZAutoSnap_DAILY_2011-11-11_01:15:03
+	tank/iso@zautosnap_DAILY_2011-11-11_01:15:03
 
 EXAMPLES:
 	zautosnap tank DAILY 0	#Remove all 'DAILY' snapshots from tank
