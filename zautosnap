@@ -31,14 +31,14 @@ fi
 
 #Create the snapshot
 if [ "$3" -ne "0" ]; then
-	zfs snapshot -r ${1}@ZAutoSnap_${2}_`date +"%Y-%m-%d_%T"`
+	zfs snapshot -r ${1}@zfs-auto-snapshot_${2}_`date +"%Y-%m-%d_%T"`
 fi
 
 #Prune snapshot(s) if necessary / requested
 if [ -n "$3" ]; then
 	for pool in `zfs list -o name -t volume,filesystem | grep ^$1`
 	do
-		SNAPS=`zfs list -o name -S creation -t snapshot | grep $pool\@ZAutoSnap_$2_`
+		SNAPS=`zfs list -o name -S creation -t snapshot | grep $pool\@zfs-auto-snapshot_$2_`
 		COUNTER=0
 		for snap in $SNAPS
 		do
